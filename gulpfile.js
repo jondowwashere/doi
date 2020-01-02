@@ -4,6 +4,7 @@ const server = browsersync.create();
 const beautify = require('gulp-beautify');
 const del = require('del');
 const gulp = require('gulp');
+const htmlmin = require('htmlmin');
 const pug = require('gulp-pug');
 const uglify = require('gulp-uglify');
 const minifycss = require('gulp-minify-css');
@@ -34,17 +35,23 @@ function watch() {
 // Tasks
 function addLibraries(done) {
   // FontAwesome
-  gulp.src('./src/libs/fontawesome/*')
-    .pipe(gulp.dest('./dest/libs/fontawesome/'));
-  // BootStrap
-  gulp.src('./src/libs/bootstrap/*')
-    .pipe(gulp.dest('./dest/libs/bootstrap/'));
+//  gulp.src('./src/libs/fontawesome/*')
+//    .pipe(gulp.dest('./dest/libs/fontawesome/'));
+  // Bootstrap
+  gulp.src('./src/libs/bootstrap/bootstrap.css')
+    .pipe(minifycss())
+    .pipe(gulp.dest('./dest/css/'));
+  gulp.src('./src/libs/bootstrap/bootstrap.bundle.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dest/js/'));
   // jQuery
-  gulp.src('./src/libs/jquery/*')
-    .pipe(gulp.dest('./dest/libs/jquery/'));
+  gulp.src('./src/libs/jquery/jquery.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dest/js/'));
   // Popper
-  gulp.src('./src/libs/popper/*')
-    .pipe(gulp.dest('./dest/libs/popper/'));
+  gulp.src('./src/libs/popper/popper.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dest/js/'));
   done();
 }
 function minifyer(done) {
